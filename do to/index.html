@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>to-Do</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="todo-app">
+            <h2>To-Do List <img src="icon.png"></h2>
+            <div class="row">
+                <input type="text" id="input-box" placeholder="Add your text">
+                <button onclick="addTask()">Add</button>
+            </div>
+            <ul id="list-container">
+                <!-- <li class="checked">Task 1</li>
+                <li>Task 2</li>
+                <li>Task 3</li> -->
+            </ul>
+        </div>
+    </div>
+
+     
+    <script type="text/javascript">
+         const inputBox = document.getElementById("input-box");
+         const listContainer = document.getElementById("list-container");
+
+         function addTask(){
+            if(inputBox.value === ''){
+                alert("You must Write Something");
+            }
+            else{   //it is used to add the task in the to-do list..
+                let li = document.createElement("li");
+                li.innerHTML = inputBox.value;
+                listContainer.appendChild(li);
+                let span = document.createElement("span");
+                span.innerHTML = "\u00d7"
+                li.appendChild(span);
+            }
+            inputBox.value = '';
+            saveData();
+         }
+
+
+         //it is  used to click the task and remove the task
+
+         listContainer.addEventListener("click",function(e){
+            if(e.target.tagName === "LI"){
+                e.target.classList.toggle("checked");
+                saveData();
+            }
+            else if(e.target.tagName === "SPAN"){
+                e.target.parentElement.remove();
+                saveData();
+            }
+         },false);
+
+
+        //it is used to save the data in browser
+         function saveData(){
+            localStorage.setItem("data",listContainer.innerHTML);
+         }
+
+         //it is used to show the task after refresh
+         function showTask(){
+            listContainer.innerHTML = localStorage.getItem("data");
+         }
+         showTask();
+
+
+    </script>
+</body>
+</html>
